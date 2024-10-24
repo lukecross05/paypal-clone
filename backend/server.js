@@ -2,6 +2,8 @@ const express = require("express");
 const mongoose = require("mongoose");
 const app = express();
 const transactionRoutes = require("./routes/transactions");
+const userRoutes = require("./routes/users");
+
 require("dotenv").config();
 const cors = require("cors");
 app.use(cors());
@@ -16,6 +18,8 @@ app.use((req, res, next) => {
 });
 
 app.use("/api/transactions/", transactionRoutes);
+app.use("/api/users/", userRoutes);
+
 console.log(process.env.PORT);
 mongoose
   .connect(process.env.MongoURI)

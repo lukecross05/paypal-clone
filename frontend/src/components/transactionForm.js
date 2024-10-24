@@ -7,16 +7,16 @@ const TransactionForm = () => {
   const [error, setError] = useState({});
 
   const handleSubmit = async () => {
-    const transaction = { amount, recipient };
+    const transaction = { amount, senderID: recipient, recieverID: 1 };
     const response = await fetch(
-      "http://localhost:4000/api/transactions/create" <
-        {
-          method: "POST",
-          body: JSON.stringify(),
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
+      "http://localhost:4000/api/transactions/create",
+      {
+        method: "POST",
+        body: JSON.stringify(transaction),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
     );
     const json = response.json();
     if (response.ok) {
