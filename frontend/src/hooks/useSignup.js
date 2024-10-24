@@ -1,10 +1,7 @@
-//import { useState } from "react";
-//import { useAuthContext } from "./useAuthContext";
+import { useUserContext } from "./useUserContext";
 
 export const useSignup = () => {
-  //const [error, setError] = useState(null);
-  //const [isLoading, setIsLoading] = useState("");
-  //const { dispatch } = useAuthContext();
+  const { dispatch } = useUserContext();
 
   const signup = async (email, username, password) => {
     //request to create a new user.
@@ -15,15 +12,9 @@ export const useSignup = () => {
     });
 
     const json = await response.json();
-
-    if (!response.ok) {
-      //setIsLoading(false);
-      //setError(json.error);
-    }
     if (response.ok) {
-      //localStorage.setItem("user", JSON.stringify(json)); //puts user into local storage and context.
-      //dispatch({ type: "LOGIN", payload: json });
-      //setIsLoading(false);
+      localStorage.setItem("user", JSON.stringify(json)); //puts user into local storage and context.
+      dispatch({ type: "LOGIN", payload: json });
       console.log("signed up");
       console.log(json);
     }

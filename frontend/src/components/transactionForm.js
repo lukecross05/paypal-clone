@@ -36,7 +36,7 @@ const TransactionForm = () => {
         value={amount}
       />
       <input
-        placeholder="Enter Recipient ID"
+        placeholder="Enter Recipient Username"
         type="text"
         onChange={(e) => setRecipient(e.target.value)}
         value={recipient}
