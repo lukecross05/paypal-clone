@@ -1,14 +1,15 @@
 import { useState } from "react";
 import { useLogin } from "../hooks/useLogin";
-
+import { useUserContext } from "../hooks/useUserContext";
 const LogIn = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const { login } = useLogin();
-
+  const { user } = useUserContext();
   const handleSubmit = async (e) => {
     e.preventDefault(); //calls login function from useLogin hook.
     await login(username, password);
+    console.log(user);
   };
 
   return (

@@ -4,13 +4,15 @@ import Home from "./pages/Home";
 import Navbar from "./pages/Navbar";
 import SignUp from "./pages/Signup";
 import LogIn from "./pages/Login";
+import { useUserContext } from "./hooks/useUserContext";
 function App() {
+  const { user } = useUserContext();
   return (
     <div>
       <BrowserRouter>
         <Navbar />
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={user ? <Home /> : <LogIn />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/login" element={<LogIn />} />
         </Routes>
