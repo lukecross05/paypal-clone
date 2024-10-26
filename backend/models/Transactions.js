@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 
 const transactionSchema = new Schema({
   //each transaction needs a sender ID, reciever ID, amount,
-  //mongoose.Schema.Types.ObjectId
+  //
   amount: {
     type: Number,
     required: true,
@@ -15,6 +15,10 @@ const transactionSchema = new Schema({
   },
   recieverID: {
     type: String,
+    required: true,
+  },
+  ownerObjectID: {
+    type: mongoose.Schema.Types.ObjectId,
     required: true,
   },
 });

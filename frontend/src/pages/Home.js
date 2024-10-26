@@ -2,8 +2,9 @@ import React from "react";
 import { useEffect, useState } from "react";
 import TransactionForm from "../components/transactionForm";
 import { useUserContext } from "../hooks/useUserContext";
+import { useTransactionContext } from "../hooks/useTransactionContext";
 const Home = () => {
-  const [transactions, setTransactions] = useState([]);
+  const { transactions, dispatch } = useTransactionContext();
   const { user } = useUserContext();
   useEffect(() => {
     const fetchData = async () => {
@@ -13,13 +14,13 @@ const Home = () => {
           Authorisation: `Bearer ${user.token}`,
         },
       });
-      const json = await response.json();
-      console.log(json);
-      if (response.ok) {
-        await setTransactions(json);
-        console.log("okay");
+      if (!response.ok) {
+        console.log("error fetching data");
       }
-      await console.log(transactions);
+
+      const json = await response.json();
+      await dispatch({ type: "SET_TRANSACTIONS", payload: json });
+      console.log(json);
     };
     fetchData();
   }, []);
