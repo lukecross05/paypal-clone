@@ -1,11 +1,12 @@
 import React from "react";
 import { useState } from "react";
 import { useUserContext } from "../hooks/useUserContext";
+import { useTransactionContext } from "../hooks/useTransactionContext";
 const TransactionForm = () => {
   const [amount, setAmount] = useState("");
-  const [recipient, setRecipient] = useState({});
-  const [error, setError] = useState({});
+  const [recipient, setRecipient] = useState("");
   const { user } = useUserContext();
+  const { transactions, dispatch } = useTransactionContext();
   const handleSubmit = async () => {
     const transaction = {
       amount,
@@ -32,6 +33,10 @@ const TransactionForm = () => {
 
       const data = await response.json();
       console.log("Transaction created:", data);
+      await dispatch({ type: "SET_TRANSACTION", payload: data });
+      console.log(transactions);
+      setAmount("");
+      setRecipient("");
     } catch (error) {
       console.error("Error:", error.message);
       // Display error message in the frontend if needed

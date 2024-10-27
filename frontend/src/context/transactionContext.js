@@ -9,6 +9,7 @@ export const TransactionReducer = (state, action) => {
         transactions: action.payload,
       };
     case "SET_TRANSACTION":
+      console.log("dispatched", action.payload);
       return {
         transactions: [action.payload, ...state.transactions],
       };
