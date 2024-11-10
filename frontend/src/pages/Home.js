@@ -1,13 +1,12 @@
-import React from "react";
-import { useEffect, useState } from "react";
+import React, { useState } from "react";
+import { useEffect } from "react";
 import TransactionForm from "../components/transactionForm";
 import { useUserContext } from "../hooks/useUserContext";
 import { useTransactionContext } from "../hooks/useTransactionContext";
 const Home = () => {
-  const { transactions: transactionsContext, dispatch } =
-    useTransactionContext();
+  const { transactions, dispatch } = useTransactionContext();
   const { user } = useUserContext();
-  const [transactions, setTransactions] = useState([]);
+  const [balance, setBalance] = useState("");
   useEffect(() => {
     const fetchData = async () => {
       console.log(user.token);
@@ -16,24 +15,42 @@ const Home = () => {
           Authorisation: `Bearer ${user.token}`,
         },
       });
-      if (!response.ok) {
-        console.log("error fetching data");
-      }
-
       const json = await response.json();
-      await dispatch({ type: "SET_TRANSACTIONS", payload: json });
-      setTransactions(json);
-      console.log(json);
+      if (response.ok) {
+        await dispatch({ type: "SET_TRANSACTIONS", payload: json });
+        console.log(json);
+      }
     };
     fetchData();
-  }, [dispatch, user]);
+    const calculateBalance = async () => {
+      console.log(transactions);
+      for (const transaction of transactions) {
+        console.log(transaction);
+        if (transaction.senderID != user.username) {
+          const sum = balance + transaction.amount;
+          setBalance(sum);
+        }
+      }
+    };
+    calculateBalance();
+  }, [dispatch]);
 
   return (
     <div>
-      {transactionsContext &&
-        transactionsContext?.map((transaction) => (
-          <p key={transaction._id}>{transaction.amount}</p>
-        ))}
+      <p>Balance : {balance}</p>
+      {transactions &&
+        transactions.map((transaction) =>
+          user && user.username === transaction.senderID ? (
+            <p key={transaction._id}>
+              You sent {transaction.recieverID} ${transaction.amount}
+            </p>
+          ) : (
+            <p key={transaction._id}>
+              {transaction.senderID} sent you ${transaction.amount}
+            </p>
+          )
+        )}
+
       <TransactionForm />
     </div>
   );

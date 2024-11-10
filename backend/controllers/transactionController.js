@@ -25,10 +25,13 @@ const createTransaction = async (req, res) => {
 };
 const getTransactions = async (req, res) => {
   const id = req.user._id;
+  const username = req.user.username;
   console.log("here");
-  const transactions = await Transaction.find({ ownerObjectID: id }).sort({
-    createdAt: -1,
+  const transactions = await Transaction.find({
+    $or: [{ ownerObjectID: id }, { recieverID: username }],
   });
+
+  //transactions.sort((a, b) => b.createdAt - a.createdAt);
   console.log(transactions);
   res.status(200).json(transactions);
 };
