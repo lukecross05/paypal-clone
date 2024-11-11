@@ -6,10 +6,9 @@ import { useTransactionContext } from "../hooks/useTransactionContext";
 const Home = () => {
   const { transactions, dispatch } = useTransactionContext();
   const { user } = useUserContext();
-  const [balance, setBalance] = useState("");
+  const [balance, setBalance] = useState(0);
   useEffect(() => {
     const fetchData = async () => {
-      console.log(user.token);
       const response = await fetch("http://localhost:4000/api/transactions/", {
         headers: {
           Authorisation: `Bearer ${user.token}`,
@@ -18,34 +17,43 @@ const Home = () => {
       const json = await response.json();
       if (response.ok) {
         await dispatch({ type: "SET_TRANSACTIONS", payload: json });
+        //calculateBalance();
         console.log(json);
       }
     };
     fetchData();
-    const calculateBalance = async () => {
-      console.log(transactions);
-      for (const transaction of transactions) {
-        console.log(transaction);
-        if (transaction.senderID != user.username) {
-          const sum = balance + transaction.amount;
-          setBalance(sum);
-        }
-      }
-    };
-    calculateBalance();
-  }, [dispatch]);
 
+    //calculateBalance();
+  }, [dispatch]);
+  const calculateBalance = async () => {
+    console.log(balance);
+    var count = 0;
+    for (const transaction of transactions) {
+      if (transaction.senderID != user.username) {
+        count = count + transaction.amount;
+        console.log(transaction);
+      } else {
+        count = count - transaction.amount;
+      }
+    }
+    setBalance(count);
+  };
+  useEffect(() => {
+    if (transactions) {
+      calculateBalance();
+    }
+  }, [transactions]);
   return (
     <div>
       <p>Balance : {balance}</p>
       {transactions &&
         transactions.map((transaction) =>
           user && user.username === transaction.senderID ? (
-            <p key={transaction._id}>
+            <p key={transaction._id} className="expense">
               You sent {transaction.recieverID} ${transaction.amount}
             </p>
           ) : (
-            <p key={transaction._id}>
+            <p key={transaction._id} className="income">
               {transaction.senderID} sent you ${transaction.amount}
             </p>
           )

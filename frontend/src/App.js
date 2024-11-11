@@ -5,6 +5,7 @@ import Navbar from "./pages/Navbar";
 import SignUp from "./pages/Signup";
 import LogIn from "./pages/Login";
 import { useUserContext } from "./hooks/useUserContext";
+import Deposit from "./pages/Deposit";
 function App() {
   const { user } = useUserContext();
   return (
@@ -15,6 +16,7 @@ function App() {
           <Route path="/" element={user ? <Home /> : <LogIn />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/login" element={<LogIn />} />
+          <Route path="/deposit" element={<Deposit />} />
         </Routes>
       </BrowserRouter>
     </div>

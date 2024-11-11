@@ -28,6 +28,11 @@ const Navbar = () => {
                   <Dropdown.Item as={Link} to="/">
                     Home
                   </Dropdown.Item>
+                  <div></div>
+                  <Dropdown.Item as={Link} to="/deposit">
+                    Deposit Money
+                  </Dropdown.Item>
+                  <div></div>
                   <Dropdown.Item as="button" onClick={handleClick}>
                     Logout
                   </Dropdown.Item>

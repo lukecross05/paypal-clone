@@ -28,3 +28,9 @@ code {
 .dropdown-toggle {
   float: right;
 }
+.expense {
+  color: #ff1212;
+}
+.income {
+  color: #207c17;
+}
