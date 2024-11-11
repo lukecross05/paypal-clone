@@ -29,7 +29,16 @@ const Home = () => {
     console.log(balance);
     var count = 0;
     for (const transaction of transactions) {
-      if (transaction.senderID != user.username) {
+      if (
+        !(
+          user &&
+          user.username === transaction.senderID &&
+          !(
+            transaction.recieverID === transaction.senderID &&
+            transaction.recieverID === user.username
+          )
+        )
+      ) {
         count = count + transaction.amount;
         console.log(transaction);
       } else {
@@ -48,7 +57,12 @@ const Home = () => {
       <p>Balance : {balance}</p>
       {transactions &&
         transactions.map((transaction) =>
-          user && user.username === transaction.senderID ? (
+          user &&
+          user.username === transaction.senderID &&
+          !(
+            transaction.recieverID === transaction.senderID &&
+            transaction.recieverID === user.username
+          ) ? (
             <p key={transaction._id} className="expense">
               You sent {transaction.recieverID} ${transaction.amount}
             </p>
