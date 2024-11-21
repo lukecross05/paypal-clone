@@ -4,7 +4,7 @@ import TransactionForm from "../components/transactionForm";
 import { useUserContext } from "../hooks/useUserContext";
 import { useTransactionContext } from "../hooks/useTransactionContext";
 const Home = () => {
-  const { transactions, dispatch } = useTransactionContext();
+  const { transactions, dispatch, calculateBalance } = useTransactionContext();
   const { user } = useUserContext();
   const [balance, setBalance] = useState(0);
   useEffect(() => {
@@ -25,7 +25,7 @@ const Home = () => {
 
     //calculateBalance();
   }, [dispatch]);
-  const calculateBalance = async () => {
+  /*const calculateBalance = async () => {
     console.log(balance);
     var count = 0;
     for (const transaction of transactions) {
@@ -46,10 +46,10 @@ const Home = () => {
       }
     }
     setBalance(count);
-  };
+  };*/
   useEffect(() => {
     if (transactions) {
-      calculateBalance();
+      setBalance(calculateBalance(user, transactions));
     }
   }, [transactions]);
   return (
@@ -57,23 +57,29 @@ const Home = () => {
       <p>Balance : {balance}</p>
       {transactions &&
         transactions.map((transaction) =>
-          user &&
-          user.username === transaction.senderID &&
-          !(
-            transaction.recieverID === transaction.senderID &&
-            transaction.recieverID === user.username
-          ) ? (
-            <p key={transaction._id} className="expense">
-              You sent {transaction.recieverID} ${transaction.amount}
-            </p>
+          user && user.username === transaction.senderID ? (
+            !(
+              transaction.recieverID === transaction.senderID &&
+              transaction.recieverID === user.username
+            ) ? (
+              <p key={transaction._id} className="expense">
+                You sent {transaction.recieverID} ${transaction.amount}
+              </p>
+            ) : transaction.amount > 0 ? (
+              <p key={transaction._id} className="income">
+                You deposited ${transaction.amount}
+              </p>
+            ) : (
+              <p key={transaction._id} className="expense">
+                You withdrew ${transaction.amount}
+              </p>
+            )
           ) : (
             <p key={transaction._id} className="income">
               {transaction.senderID} sent you ${transaction.amount}
             </p>
           )
         )}
-
-      <TransactionForm />
     </div>
   );
 };

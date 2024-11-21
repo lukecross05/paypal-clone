@@ -1,7 +1,6 @@
 import React from "react";
 import { useState } from "react";
 import { useUserContext } from "../hooks/useUserContext";
-
 const cardValidator = require("card-validator");
 
 const DepositForm = () => {
@@ -9,6 +8,7 @@ const DepositForm = () => {
   const [cardNumber, setCardNumber] = useState("");
   const [expiryDate, setExpiryDate] = useState("");
   const [cvv, setCvv] = useState("");
+  const [error, setError] = useState("");
   const { user, dispatch } = useUserContext();
 
   const handleSubmit = async () => {
@@ -75,6 +75,8 @@ const DepositForm = () => {
       const data = await response.json();
       console.log("Transaction created:", data);
       await dispatch({ type: "SET_TRANSACTION", payload: data });
+      setError("Succesfully deposited : $ " + amount);
+      console.log(error, amount);
       setAmount("");
       setCardNumber("");
       setCvv("");
@@ -115,6 +117,8 @@ const DepositForm = () => {
       />
 
       <button onClick={handleSubmit}>Deposit</button>
+
+      <p>{error}</p>
     </div>
   );
 };

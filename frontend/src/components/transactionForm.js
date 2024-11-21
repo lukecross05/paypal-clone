@@ -47,18 +47,21 @@ const TransactionForm = () => {
   return (
     <div>
       <label>Send Money</label>
+      <div></div>
       <input
         placeholder="Enter Amount"
         type="text"
         onChange={(e) => setAmount(e.target.value)}
         value={amount}
       />
+      <div></div>
       <input
         placeholder="Enter Recipient Username"
         type="text"
         onChange={(e) => setRecipient(e.target.value)}
         value={recipient}
       />
+      <div></div>
       <button onClick={handleSubmit}>Submit</button>
     </div>
   );

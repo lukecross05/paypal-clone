@@ -6,6 +6,8 @@ import SignUp from "./pages/Signup";
 import LogIn from "./pages/Login";
 import { useUserContext } from "./hooks/useUserContext";
 import Deposit from "./pages/Deposit";
+import SendMoney from "./pages/SendMoney";
+import Withdraw from "./pages/Withdraw";
 function App() {
   const { user } = useUserContext();
   return (
@@ -17,6 +19,8 @@ function App() {
           <Route path="/signup" element={<SignUp />} />
           <Route path="/login" element={<LogIn />} />
           <Route path="/deposit" element={<Deposit />} />
+          <Route path="/send-money" element={<SendMoney />} />
+          <Route path="/withdraw-money" element={<Withdraw />} />
         </Routes>
       </BrowserRouter>
     </div>

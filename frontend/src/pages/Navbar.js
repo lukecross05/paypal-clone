@@ -14,7 +14,9 @@ const Navbar = () => {
   return (
     <div>
       <div className="navbar-container">
-        <div className="navbar-left">Navbar</div>
+        <div className="navbar-left">
+          <Link to={"/"}>Home</Link>
+        </div>
         <div className="navbar-right">
           <Dropdown>
             <Dropdown.Toggle className="dropdown-toggle">Menu</Dropdown.Toggle>
@@ -25,12 +27,17 @@ const Navbar = () => {
                     {user.username}
                   </Dropdown.Item>
                   <Dropdown.Divider />
-                  <Dropdown.Item as={Link} to="/">
-                    Home
-                  </Dropdown.Item>
                   <div></div>
                   <Dropdown.Item as={Link} to="/deposit">
                     Deposit Money
+                  </Dropdown.Item>
+                  <div></div>
+                  <Dropdown.Item as={Link} to="/send-money">
+                    Send Money
+                  </Dropdown.Item>
+                  <div></div>
+                  <Dropdown.Item as={Link} to="/withdraw-money">
+                    Withdraw Money
                   </Dropdown.Item>
                   <div></div>
                   <Dropdown.Item as="button" onClick={handleClick}>
