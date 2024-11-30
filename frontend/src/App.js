@@ -8,21 +8,26 @@ import { useUserContext } from "./hooks/useUserContext";
 import Deposit from "./pages/Deposit";
 import SendMoney from "./pages/SendMoney";
 import Withdraw from "./pages/Withdraw";
+import { QueryClient, QueryClientProvider } from "react-query";
+
 function App() {
   const { user } = useUserContext();
+  const queryClient = new QueryClient();
   return (
     <div>
-      <BrowserRouter>
-        <Navbar />
-        <Routes>
-          <Route path="/" element={user ? <Home /> : <LogIn />} />
-          <Route path="/signup" element={<SignUp />} />
-          <Route path="/login" element={<LogIn />} />
-          <Route path="/deposit" element={<Deposit />} />
-          <Route path="/send-money" element={<SendMoney />} />
-          <Route path="/withdraw-money" element={<Withdraw />} />
-        </Routes>
-      </BrowserRouter>
+      <QueryClientProvider client={queryClient}>
+        <BrowserRouter>
+          <Navbar />
+          <Routes>
+            <Route path="/" element={user ? <Home /> : <LogIn />} />
+            <Route path="/signup" element={<SignUp />} />
+            <Route path="/login" element={<LogIn />} />
+            <Route path="/deposit" element={<Deposit />} />
+            <Route path="/send-money" element={<SendMoney />} />
+            <Route path="/withdraw-money" element={<Withdraw />} />
+          </Routes>
+        </BrowserRouter>
+      </QueryClientProvider>
     </div>
   );
 }
